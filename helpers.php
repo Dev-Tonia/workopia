@@ -6,9 +6,10 @@
  * @param string $path
  * @return  string
  */
-function basePath($path = ''){
+function basePath($path = '')
+{
     // __DIR__ iS used to get the absolute path 
-    return __DIR__.'/'. $path;
+    return __DIR__ . '/' . $path;
 }
 
 /**
@@ -16,14 +17,17 @@ function basePath($path = ''){
  * Load a view
  * 
  * @param string $name
+ * @param array $data
  * @return  void
  * 
  */
-function loadView($name){
-    $viewPath = basePath("views/{$name}.view.php");
-    if(file_exists( $viewPath)){
+function loadView($name, $data = [])
+{
+    $viewPath = basePath("App/views/{$name}.view.php");
+    if (file_exists($viewPath)) {
+        extract($data); // this will import variables into the current symbol form the table 
         require $viewPath;
-    }else{
+    } else {
         echo "View '{$name} not found!'";
     }
 }
@@ -35,13 +39,13 @@ function loadView($name){
  * @return  void
  * 
  */
-function loadPartial($name){
-    $partialPath =  basePath("views/partials/{$name}.php");
-    if(file_exists($partialPath)){
+function loadPartial($name)
+{
+    $partialPath =  basePath("App/views/partials/{$name}.php");
+    if (file_exists($partialPath)) {
         require $partialPath;
-    }else{
+    } else {
         echo "View '{$name} not found!'";
-
     }
 }
 
@@ -52,22 +56,33 @@ function loadPartial($name){
  * @return  void
  */
 
- function inspect($value){
+function inspect($value)
+{
     echo '<pre>';
     var_dump($value);
     echo '</pre>';
-
- }
- /**
+}
+/**
  * Inspect a value(s)
  * 
  * @param mixed $value
  * @return  void
  */
 
- function inspectAndDie($value){
+function inspectAndDie($value)
+{
     echo '<pre>';
     die(var_dump($value));
     echo '</pre>';
+}
 
- }
+/**
+ * Format Salary
+ *
+ * @param string $salary
+ * @return string Formatted salary 
+ */
+function formatSalary($salary)
+{
+    return '$' . number_format(floatval($salary));
+}
